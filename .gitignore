@@ -1,0 +1,17 @@
+# Executables
+*.out
+*.exe
+*.bin
+*.elf
+*.com
+# Static libs
+*.a
+*.lib
+# Shared Libs
+*.o
+*.so
+*.dll
+# Misc
+.idea/
+playground/
+
