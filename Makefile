@@ -4,7 +4,7 @@ FILE_HOME := ./
 FILE_EXT := .exe
 FILE_NAME := $(FILE_NAME_PARTIAL)$(FILE_EXT)
 OUT_OPTION := -o $(FILE_NAME)
-G++_COMMAND_PARTIAL := g++ -std=c++17 -pedantic-errors
+G++_COMMAND_PARTIAL := g++ -std=c++17 -pedantic-errors -Iinclude -Llib
 G++_TO_BIN := $(G++_COMMAND_PARTIAL) $(OUT_OPTION)
 
 circles:
