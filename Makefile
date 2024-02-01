@@ -10,3 +10,6 @@ INCLUDES_AND_LIBS := -I include -L lib/mingw-64 -l glfw3 -l gdi32
 
 circles:
 	-$(G++_COMMAND_PARTIAL) src/main.cpp src/glad.c $(OUT_OPTION) $(INCLUDES_AND_LIBS)
+
+example:
+	-$(G++_COMMAND_PARTIAL) src/main.cpp src/glad.c -o example.exe $(INCLUDES_AND_LIBS)
