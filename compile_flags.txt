@@ -1,2 +1,2 @@
 -Iinclude
--Llib
+-Llib/mingw-64
