@@ -1,6 +1,9 @@
 #include "main.h"
+#include "clock_tracking/clock_track.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <ctime>
+// #include <cmath>
 
 #include <iostream>
 
@@ -28,13 +31,21 @@ int main() {
 
   glfwSetFramebufferSizeCallback(window, frame_buffer_size_callback);
 
+
+  ClockTrack clockTracker;
+  clockTracker.poll_fps = true;
+  clockTracker.enable_fps_log = true;
+
   while(!glfwWindowShouldClose(window)) {
+    clockTracker.clock_cycle();
+
     process_input(window);
 
     render_new();
 
     glfwSwapBuffers(window);
     glfwPollEvents();
+
   }
 
   glfwTerminate();
