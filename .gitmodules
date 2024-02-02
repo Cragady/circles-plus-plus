@@ -1,0 +1,4 @@
+[submodule "modules/glm"]
+	path = modules/glm
+	url = git@github.com:g-truc/glm.git
+  hexsha = 33b0eb9fa336ffd8551024b1d2690e418014553b

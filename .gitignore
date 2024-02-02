@@ -13,6 +13,8 @@
 *.dll
 # Misc
 .idea/
+crash-testing/
 playground/
 libs-and-headers/
 !lib/**/*
+include/glm
