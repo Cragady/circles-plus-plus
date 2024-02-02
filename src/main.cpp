@@ -1,5 +1,6 @@
 #include "main.hpp"
 #include "clock_tracking/clock_track.hpp"
+#include "color/color_shifting.hpp"
 #include "shaders/shaderprog.hpp"
 #include "shapes/circle.hpp"
 #include <glad/glad.h>
@@ -31,6 +32,7 @@ int main() {
   }
 
   ShaderProg shaderProgram;
+  //FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
   shaderProgram.attach("./src/shaders/vs-first-circle.glsl", GL_VERTEX_SHADER);
   shaderProgram.attach("./src/shaders/fs-first-circle.glsl", GL_FRAGMENT_SHADER);
   shaderProgram.link();
@@ -47,10 +49,10 @@ int main() {
   glBindVertexArray(VAO);
 
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(float) * firstCircle.vertices.size(), &firstCircle.vertices[0], GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(float) * firstCircle.vertices.size(), &firstCircle.vertices[0], GL_DYNAMIC_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * firstCircle.indices.size(), &firstCircle.indices[0], GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * firstCircle.indices.size(), &firstCircle.indices[0], GL_DYNAMIC_DRAW);
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
@@ -60,6 +62,8 @@ int main() {
   ClockTrack clockTracker;
   clockTracker.poll_fps = true;
   clockTracker.enable_fps_log = true;
+
+  ColorShifting colorShifting(156.0, 0.0, 25.0f);
 
   // uncomment this call to draw in wireframe polygons.
   // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -73,6 +77,7 @@ int main() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     shaderProgram.use();
+    shaderProgram.setFragmentColor(colorShifting.shiftColor(clockTracker.delta_time));
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, firstCircle.indices.size(), GL_UNSIGNED_INT, 0);
 

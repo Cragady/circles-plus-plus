@@ -1,4 +1,5 @@
 src/shaders/shaderprog.cpp
+src/color/color_shifting.cpp
 src/shapes/circle.cpp
 src/shapes/circle_math.cpp
 src/clock_tracking/clock_track.cpp

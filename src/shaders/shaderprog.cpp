@@ -11,6 +11,13 @@ ShaderProg::~ShaderProg() {
   // destructor
   glDeleteProgram(m_pId);
 }
+
+void ShaderProg::setFragmentColor(glm::vec3 t_color_vector) {
+  GLuint location = glGetUniformLocation(m_pId, "u_fragmentColor");
+  if (location >= 0)
+    glUniform3fv(location, 1, &t_color_vector[0]);
+};
+
 void ShaderProg::link() {
   // links the shader object into program object
   glLinkProgram(m_pId);

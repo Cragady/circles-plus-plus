@@ -4,6 +4,7 @@
 ClockTrack::ClockTrack() {
   old_delta = clock();
   seconds_delta = 0.0f;
+  delta_time = 0.0f;
   enable_fps_log = false;
   poll_fps = false;
 }
@@ -13,12 +14,12 @@ ClockTrack::~ClockTrack() {};
 void ClockTrack::clock_cycle() {
   clock_t new_delta = clock() - old_delta;
   old_delta = clock();
-  float delta_time = (float)new_delta / CLOCKS_PER_SEC;
+  delta_time = (float)new_delta / CLOCKS_PER_SEC;
 
-  log_fps(delta_time, new_delta);
+  log_fps(new_delta);
 }
 
-void ClockTrack::log_fps(float &delta_time, clock_t &new_delta) {
+void ClockTrack::log_fps(clock_t &new_delta) {
   if (!poll_fps) return;
   seconds_delta += delta_time;
   if (seconds_delta < 1.0f) return;
