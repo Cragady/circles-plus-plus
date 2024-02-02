@@ -1,8 +1,17 @@
 # Overview
 
+This is another stint into OpenGL, but using C++ instead of Lisp on Windows.
+
 This repo assumes a Windows 10/11 OS on 64 bit. I don't want to use Visual Studio, or its build tools, so I'll be utilizing MinGW's gcc/g++ (MinGW-64).
 
 This README may not include everything needed to get this compiled on your architecture, or my targeted architecture. This can be resolved with a little bit of elbow-grease, but I will do my best to keep this file updated if I don't get too caught up in the creation of this program.
+
+As you may notices, this repo's name insinuates that there will be more circles. That's the goal, but I feel pretty accomplished getting this repo to the point where it's at.
+
+
+## Where It's at currently
+
+<img src="./assets/demo/color-shift-circle.gif" width="300" height="300" />
 
 ## Dependencies - Local
 

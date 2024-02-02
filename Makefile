@@ -11,13 +11,17 @@ G++_COMMAND_PARTIAL := g++ -std=c++17 -pedantic-errors
 # INCLUDES_AND_LIBS := -I include -isystem lib/mingw-64 -L lib/mingw-64 -l opengl32 -l glfw3 -l gdi32
 INCLUDES_AND_LIBS := -I include -L lib/mingw-64 -l glfw3 -l gdi32
 
-# all: circles
+all: circles-and-run
 
 dependencies:
 	cp -r modules/glm/glm include/
 
 circles:
-	-$(G++_COMMAND_PARTIAL) src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) $(INCLUDES_AND_LIBS)
+	$(G++_COMMAND_PARTIAL) src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) $(INCLUDES_AND_LIBS)
+
+circles-and-run: circles
+	./circles.exe
+
 
 example:
 	-$(G++_COMMAND_PARTIAL) src/example.cpp src/glad.c -o example.exe $(INCLUDES_AND_LIBS)
