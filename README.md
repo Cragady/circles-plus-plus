@@ -4,6 +4,14 @@ This repo assumes a Windows 10/11 OS on 64 bit. I don't want to use Visual Studi
 
 This README may not include everything needed to get this compiled on your architecture, or my targeted architecture. This can be resolved with a little bit of elbow-grease, but I will do my best to keep this file updated if I don't get too caught up in the creation of this program.
 
+## Dependencies - Local
+
+* glm
+
+I think this could be a system dependency instead if wanted, and can install, but I decided to add a git submodule to the `modules/` dir.
+
+Run: `make dependencies` after cloning w/modules, or after updating submodules.
+
 ## Dependencies - System
 
 This section may not be needed for you, as I'm using an `includes/` and `lib/win64` directory that git will be tracking, but if you want to kaibosh this folder, and set it up yourself, then this section is for you. If not, then skip this section.
