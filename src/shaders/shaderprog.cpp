@@ -12,11 +12,36 @@ ShaderProg::~ShaderProg() {
   glDeleteProgram(m_pId);
 }
 
+
+
+void ShaderProg::setVSandFSLocations(std::string vs_name, std::string fs_name) {
+  if (vs_name.length() == 0) {
+    std::cout << "Vertex Shader name invalid!" << std::endl;
+    return;
+  }
+
+  std::string c_vs_name = vs_name + '\0';
+  attach(&c_vs_name[0], GL_VERTEX_SHADER);
+
+  if (fs_name.length() == 0) {
+    std::cout << "Fragment Shader name invalid!" << std::endl;
+    return;
+  }
+
+  std::string c_fs_name = fs_name + '\0';
+  attach(&c_fs_name[0], GL_FRAGMENT_SHADER);
+}
+
 void ShaderProg::setFragmentColor(glm::vec3 t_color_vector) {
   GLuint location = glGetUniformLocation(m_pId, "u_fragmentColor");
   if (location >= 0)
     glUniform3fv(location, 1, &t_color_vector[0]);
 };
+
+GLuint ShaderProg::getUniform(std::string location) {
+  std::string c_location = location + '\0';
+  return glGetUniformLocation(m_pId, &location[0]);
+}
 
 void ShaderProg::link() {
   // links the shader object into program object
@@ -73,4 +98,8 @@ std::string ShaderProg::readShaderFromFile(const char *fileName) {
     file.close();
   }
   return stringData;
+}
+
+GLuint ShaderProg::getID() {
+  return m_pId;
 }

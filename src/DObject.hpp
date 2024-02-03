@@ -1,12 +1,14 @@
 #ifndef DOBJECT_H
 #define DOBJECT_H
 
+#include "shaders/shaderprog.hpp"
+
+#include <glm/vec3.hpp>
 #include <vector>
 
 class DObject {
 
 private:
-
   unsigned int VBO;
   unsigned int VAO;
   unsigned int EBO;
@@ -18,6 +20,11 @@ private:
   // Element Buffer Objects
   void bindEBO(std::vector<unsigned int> &indices);
   void finishBindings();
+
+protected:
+  glm::vec3 position;
+  void clearBindings();
+  void genArraysAndBuffers();
 
 public:
   DObject();
@@ -37,12 +44,15 @@ public:
     DOTMATRIX = 3,
   };
 
-  bool polygon_mode;
   DrawMode current_draw_mode;
+
+  ShaderProg shader_program;
 
   void bindData(std::vector<float> &vertices, std::vector<unsigned int> &indices);
   void draw();
   void setDrawMode();
+  void transform(glm::vec3 &new_position);
+  void updateShader();
 
 };
 

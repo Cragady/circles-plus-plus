@@ -1,5 +1,4 @@
 #include "main.hpp"
-#include "DObject.hpp"
 #include "clock_tracking/clock_track.hpp"
 #include "color/color_shifting.hpp"
 #include "shaders/shaderprog.hpp"
@@ -14,19 +13,8 @@ int main() {
     WindowControl windowControl("Circles", SCR_WIDTH, SCR_WIDTH);
     windowControl.initAndCreateWindow();
 
-    ShaderProg shaderProgram;
-    shaderProgram.attach("./src/shaders/vs-first-circle.glsl",
-                         GL_VERTEX_SHADER);
-    shaderProgram.attach("./src/shaders/fs-first-circle.glsl",
-                         GL_FRAGMENT_SHADER);
-    shaderProgram.link();
-
     Circle firstCircle;
-    firstCircle.createVecVertices();
-
-    DObject firstCanvasItem;
-
-    firstCanvasItem.bindData(firstCircle.vertices, firstCircle.indices);
+    firstCircle.initializeMembers();
 
     ClockTrack clockTracker;
     clockTracker.poll_fps = true;
@@ -44,11 +32,14 @@ int main() {
        *
        */
 
+      glm::vec3 movement = glm::vec3(-1, 0, 0) * clockTracker.delta_time;
+
       windowControl.clearBuffer();
-      shaderProgram.use();
-      shaderProgram.setFragmentColor(
+      firstCircle.shader_program.use();
+      firstCircle.shader_program.setFragmentColor(
           colorShifting.shiftColor(clockTracker.delta_time));
-      firstCanvasItem.draw();
+      firstCircle.transform(movement);
+      firstCircle.draw();
 
       /*
        *
