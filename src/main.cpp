@@ -1,7 +1,6 @@
 #include "main.hpp"
 #include "clock_tracking/clock_track.hpp"
 #include "color/color_shifting.hpp"
-#include "shaders/shaderprog.hpp"
 #include "shapes/circle.hpp"
 #include "window_control.hpp"
 #include <cstdlib>
@@ -15,6 +14,9 @@ int main() {
 
     Circle firstCircle;
     firstCircle.initializeMembers();
+
+    Circle secondCircle;
+    secondCircle.initializeMembers();
 
     ClockTrack clockTracker;
     clockTracker.poll_fps = true;
@@ -40,6 +42,14 @@ int main() {
           colorShifting.shiftColor(clockTracker.delta_time));
       firstCircle.transform(movement);
       firstCircle.draw();
+
+      movement *= -1;
+
+      secondCircle.shader_program.use();
+      secondCircle.shader_program.setFragmentColor(
+          colorShifting.shiftColor(clockTracker.delta_time));
+      secondCircle.transform(movement);
+      secondCircle.draw();
 
       /*
        *
