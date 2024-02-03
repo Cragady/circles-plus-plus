@@ -5,8 +5,6 @@
 #include "shaders/shaderprog.hpp"
 #include "shapes/circle.hpp"
 #include "window_control.hpp"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <cstdlib>
 
 #include <iostream>
@@ -36,22 +34,25 @@ int main() {
 
     ColorShifting colorShifting(156.0, 0.0, 25.0f);
 
-    // uncomment this call to draw in wireframe polygons.
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
     while (windowControl.keepOpen()) {
       clockTracker.clock_cycle();
 
       windowControl.processInput();
 
       // render
-      // FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-      glClear(GL_COLOR_BUFFER_BIT);
+      /*
+       *
+       */
+
+      windowControl.clearBuffer();
       shaderProgram.use();
       shaderProgram.setFragmentColor(
           colorShifting.shiftColor(clockTracker.delta_time));
       firstCanvasItem.draw();
+
+      /*
+       *
+       */
       // end render
 
       windowControl.swapAndPoll();

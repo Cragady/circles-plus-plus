@@ -24,6 +24,7 @@ public:
   bool keepOpen();
   void swapAndPoll();
   void terminate();
+  void clearBuffer();
 
 };
 

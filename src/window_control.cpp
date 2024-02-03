@@ -50,3 +50,8 @@ void WindowControl::swapAndPoll() {
 }
 
 void WindowControl::terminate() { glfwTerminate(); }
+
+void WindowControl::clearBuffer() {
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
+}
