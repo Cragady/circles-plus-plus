@@ -16,6 +16,39 @@ DObject::~DObject() {
   clearBindings();
 }
 
+// copy
+// DObject::DObject(DObject const &other) {}
+//
+// DObject& DObject::operator=(DObject other) {
+//   swap(*this, other);
+//   return *this;
+// }
+//
+// // move
+// DObject::DObject(DObject &&other) : VBO(other.VBO), VAO(other.VAO), EBO(other.EBO) {
+//   other.VBO = {};
+//   other.VAO = {};
+//   other.EBO = {};
+//   other.shader_program = {};
+//   other.indices_size = {};
+// }
+//
+// DObject& DObject::operator=(DObject &&other) noexcept {
+//   swap(*this, other);
+//   return *this;
+// }
+//
+// void swap(DObject &first, DObject &second) {
+//   using std::swap;
+//   swap(first.VBO, second.VBO);
+//   swap(first.VAO, second.VAO);
+//   swap(first.EBO, second.EBO);
+//   swap(first.shader_program, second.shader_program);
+//   swap(first.current_draw_mode, second.current_draw_mode);
+//   swap(first.position, second.position);
+//   swap(first.indices_size, second.indices_size);
+// }
+
 void DObject::bindData(std::vector<float> &vertices,
                        std::vector<unsigned int> &indices) {
   bindVAO();
@@ -52,8 +85,9 @@ void DObject::draw() {
 }
 
 void DObject::setDrawMode() {
-  // maybe re-think this, probably use enum and only call
-  // glPolygonMode once per change instead of every draw
+  // This may draw every object like this lol
+  // consider moving this to the window class
+  // if that is the behavior
   if (current_draw_mode == DrawMode::NOOP) return;
   if (current_draw_mode == DrawMode::NORMAL) {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -79,9 +113,9 @@ void DObject::genArraysAndBuffers() {
   glGenBuffers(1, &EBO);
 }
 
-void DObject::transform(glm::vec3 &new_position){
+void DObject::transform(glm::vec3 &position_delta){
 
-  position += new_position;
+  position += position_delta;
 
   GLuint transformLoc = glGetUniformLocation(shader_program.getID(), "transform");
 
@@ -93,4 +127,17 @@ void DObject::transform(glm::vec3 &new_position){
   // glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 
   glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+}
+
+
+
+// GLuint ShaderProg::getUniform(std::string location) {
+//   std::string c_location = location + '\0';
+//   return glGetUniformLocation(m_pId, &location[0]);
+// }
+
+void DObject::setPosition(glm::vec3 &new_position) {
+  position = new_position;
+  glm::vec3 zero_delta = glm::vec3();
+  transform(zero_delta);
 }

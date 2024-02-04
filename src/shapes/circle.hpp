@@ -9,6 +9,7 @@ class Circle : public DObject {
 
 private:
   std::vector<glm::vec3> vec;
+  float radians;
 
 
 public:
@@ -26,6 +27,7 @@ public:
   void createVers();
   void createTriangleIndices(int index);
   void initializeMembers();
+  void oscillatePosition(float delta_time);
 };
 
 #endif

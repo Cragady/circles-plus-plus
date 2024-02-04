@@ -2,6 +2,7 @@
 #include "clock_tracking/clock_track.hpp"
 #include "color/color_shifting.hpp"
 #include "shapes/circle.hpp"
+#include "shapes/circle_math.hpp"
 #include "window_control.hpp"
 #include <cstdlib>
 
@@ -12,11 +13,20 @@ int main() {
     WindowControl windowControl("Circles", SCR_WIDTH, SCR_WIDTH);
     windowControl.initAndCreateWindow();
 
-    Circle firstCircle;
+    // std::vector<Circle> circles;
+    // circles.push_back(Circle(CircleMath::pointOnEdge(0.15f, 0.0f, glm::vec3()), 0.05, 50));
+    // circles[0].initializeMembers();
+
+    // Circle testCircle(CircleMath::pointOnEdge(0.15f, 0.0f, glm::vec3()), 0.05, 50);
+    // testCircle.initializeMembers();
+
+    // circles.push_back(testCircle);
+
+    Circle firstCircle(CircleMath::pointOnEdge(0.15f, 0.0f, glm::vec3()), 0.05, 50);
     firstCircle.initializeMembers();
 
-    Circle secondCircle;
-    secondCircle.initializeMembers();
+    // Circle secondCircle(CircleMath::pointOnEdge(0.15f, 0.5f, glm::vec3()), 0.05, 50);
+    // secondCircle.initializeMembers();
 
     ClockTrack clockTracker;
     clockTracker.poll_fps = true;
@@ -34,22 +44,27 @@ int main() {
        *
        */
 
-      glm::vec3 movement = glm::vec3(-1, 0, 0) * clockTracker.delta_time;
-
       windowControl.clearBuffer();
+      // circles[0].shader_program.use();
+      // circles[0].shader_program.setFragmentColor(
+      //     colorShifting.shiftColor(clockTracker.delta_time));
+      // // circles[0].oscillatePosition(clockTracker.delta_time);
+      // circles[0].oscillatePosition(clockTracker.delta_time);
+      // circles[0].draw();
+
       firstCircle.shader_program.use();
       firstCircle.shader_program.setFragmentColor(
           colorShifting.shiftColor(clockTracker.delta_time));
-      firstCircle.transform(movement);
+      // firstCircle.oscillatePosition(clockTracker.delta_time);
+      firstCircle.oscillatePosition(clockTracker.delta_time);
       firstCircle.draw();
 
-      movement *= -1;
 
-      secondCircle.shader_program.use();
-      secondCircle.shader_program.setFragmentColor(
-          colorShifting.shiftColor(clockTracker.delta_time));
-      secondCircle.transform(movement);
-      secondCircle.draw();
+      // secondCircle.shader_program.use();
+      // secondCircle.shader_program.setFragmentColor(
+      //     colorShifting.shiftColor(clockTracker.delta_time));
+      // secondCircle.oscillatePosition(clockTracker.delta_time);
+      // secondCircle.draw();
 
       /*
        *

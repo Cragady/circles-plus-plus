@@ -12,6 +12,7 @@
 
 #include "circle.hpp"
 #include "circle_math.hpp"
+#include <glm/glm.hpp>
 #include <iostream>
 
 Circle::Circle() : Circle(0.25f, 50) {}
@@ -22,12 +23,15 @@ Circle::Circle(float t_radius, float t_steps)
 Circle::Circle(glm::vec3 t_position, float t_radius, float t_steps) {
   radius = t_radius;
   steps = t_steps;
-  DObject::position = t_position;
+  radians = CircleMath::degreeFromPositioning(t_position, glm::vec3());
   DObject::shader_program.setVSandFSLocations(
     "./src/shaders/vs-first-circle.glsl",
     "./src/shaders/fs-first-circle.glsl"
   );
   DObject::shader_program.link();
+  DObject::shader_program.use();
+  DObject::position = t_position;
+  DObject::transform(DObject::position);
 }
 
 Circle::~Circle(){};
@@ -63,3 +67,30 @@ void Circle::initializeMembers() {
   createVecVertices();
   DObject::bindData(vertices, indices);
 }
+
+void Circle::oscillatePosition(float delta_time) {
+  float lambda = 1.0f;
+  float twoPi = 2 * CircleMath::PI;
+  float K = twoPi / lambda;
+  float x = 0.15f * cos(K * position.y - twoPi * delta_time);
+  float y = 0.15f * sin(K * position.x - twoPi * delta_time);
+  std::cout << "\nx: " << position.x
+    << "\ny: " << position.y << std::endl;
+  glm::vec3 new_position = glm::vec3(x, y, 0);
+  // transform(new_position);
+  setPosition(new_position);
+}
+
+// void Circle::oscillatePosition(float delta_time) {
+//   float degrees = CircleMath::degreeFromPositioning(position, glm::vec3());
+//   degrees /= 3;
+//   radian_delta += 0.01;
+//   if ((int)radian_delta % 360 == 0) radian_delta = 0.0f;
+//   // 6.28319 | 0.0174533
+//   float radians = glm::radians(degrees);
+//   float test = cos(radians * radian_delta);
+//   float x = cos(radians - radian_delta) * delta_time * test;
+//   float y = sin(radians) * delta_time;
+//   glm::vec3 new_position = glm::vec3(x, y, 0);
+//   transform(new_position);
+// }

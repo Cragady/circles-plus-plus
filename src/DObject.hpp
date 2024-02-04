@@ -37,6 +37,14 @@ public:
   DObject& operator=(const DObject&) = delete;
   DObject& operator=(DObject&&) = delete;
 
+  // copy
+  // DObject(DObject const &other);
+  // // DObject& operator=(DObject const &other);
+  // DObject& operator=(DObject other);
+  // // move
+  // DObject(DObject &&other);
+  // DObject& operator=(DObject &&other) noexcept;
+
   enum DrawMode {
     NOOP = 0,
     NORMAL = 1,
@@ -51,9 +59,13 @@ public:
   void bindData(std::vector<float> &vertices, std::vector<unsigned int> &indices);
   void draw();
   void setDrawMode();
-  void transform(glm::vec3 &new_position);
   void updateShader();
+  void transform(glm::vec3 &position_delta);
+  void setPosition(glm::vec3 &new_position);
+  // friend void swap(DObject &first, DObject &second);
 
 };
+
+// void swap(DObject &first, DObject &second);
 
 #endif
