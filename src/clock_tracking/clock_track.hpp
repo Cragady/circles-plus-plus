@@ -15,6 +15,7 @@ public:
   bool enable_fps_log;
   bool poll_fps;
   float delta_time;
+  float life_delta;
   void clock_cycle();
   void log_fps(clock_t &new_delta);
 

@@ -27,7 +27,7 @@ public:
   void createVers();
   void createTriangleIndices(int index);
   void initializeMembers();
-  void oscillatePosition(float delta_time);
+  void oscillatePosition(float delta_time, float life_delta);
 };
 
 #endif

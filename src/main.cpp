@@ -22,7 +22,7 @@ int main() {
 
     // circles.push_back(testCircle);
 
-    Circle firstCircle(CircleMath::pointOnEdge(0.15f, 0.0f, glm::vec3()), 0.05, 50);
+    Circle firstCircle(CircleMath::pointOnEdge(0.5f, (float)(2.0f / 5.0f), glm::vec3()), 0.05, 50);
     firstCircle.initializeMembers();
 
     // Circle secondCircle(CircleMath::pointOnEdge(0.15f, 0.5f, glm::vec3()), 0.05, 50);
@@ -55,8 +55,7 @@ int main() {
       firstCircle.shader_program.use();
       firstCircle.shader_program.setFragmentColor(
           colorShifting.shiftColor(clockTracker.delta_time));
-      // firstCircle.oscillatePosition(clockTracker.delta_time);
-      firstCircle.oscillatePosition(clockTracker.delta_time);
+      firstCircle.oscillatePosition(clockTracker.delta_time, clockTracker.life_delta);
       firstCircle.draw();
 
 

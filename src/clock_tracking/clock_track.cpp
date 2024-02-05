@@ -4,6 +4,7 @@
 ClockTrack::ClockTrack() {
   old_delta = clock();
   seconds_delta = 0.0f;
+  life_delta = 0.0f;
   delta_time = 0.0f;
   enable_fps_log = false;
   poll_fps = false;
@@ -15,6 +16,7 @@ void ClockTrack::clock_cycle() {
   clock_t new_delta = clock() - old_delta;
   old_delta = clock();
   delta_time = (float)new_delta / CLOCKS_PER_SEC;
+  life_delta += delta_time;
 
   log_fps(new_delta);
 }

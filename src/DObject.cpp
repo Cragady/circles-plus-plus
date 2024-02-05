@@ -113,9 +113,15 @@ void DObject::genArraysAndBuffers() {
   glGenBuffers(1, &EBO);
 }
 
-void DObject::transform(glm::vec3 &position_delta){
+void DObject::transform(glm::vec3 &position_delta) {
 
   position += position_delta;
+
+  delta_transform(position_delta);
+
+}
+
+void DObject::delta_transform(glm::vec3 &position_delta) {
 
   GLuint transformLoc = glGetUniformLocation(shader_program.getID(), "transform");
 
@@ -129,15 +135,9 @@ void DObject::transform(glm::vec3 &position_delta){
   glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 }
 
-
-
-// GLuint ShaderProg::getUniform(std::string location) {
-//   std::string c_location = location + '\0';
-//   return glGetUniformLocation(m_pId, &location[0]);
-// }
-
 void DObject::setPosition(glm::vec3 &new_position) {
-  position = new_position;
   glm::vec3 zero_delta = glm::vec3();
-  transform(zero_delta);
+  position = new_position;
+
+  delta_transform(zero_delta);
 }

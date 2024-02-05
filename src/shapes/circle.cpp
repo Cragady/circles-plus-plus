@@ -30,8 +30,7 @@ Circle::Circle(glm::vec3 t_position, float t_radius, float t_steps) {
   );
   DObject::shader_program.link();
   DObject::shader_program.use();
-  DObject::position = t_position;
-  DObject::transform(DObject::position);
+  DObject::setPosition(t_position);
 }
 
 Circle::~Circle(){};
@@ -40,7 +39,7 @@ void Circle::createVecVertices() {
   for (int current_step = 0; current_step < steps; current_step++) {
     float degree_partial = (float)current_step / steps;
     glm::vec3 circle_coords =
-        CircleMath::pointOnEdge(radius, degree_partial, DObject::position);
+        CircleMath::pointOnEdge(radius, degree_partial, glm::vec3());
     vec.push_back(circle_coords);
     createTriangleIndices(current_step);
   }
@@ -68,29 +67,15 @@ void Circle::initializeMembers() {
   DObject::bindData(vertices, indices);
 }
 
-void Circle::oscillatePosition(float delta_time) {
-  float lambda = 1.0f;
-  float twoPi = 2 * CircleMath::PI;
-  float K = twoPi / lambda;
-  float x = 0.15f * cos(K * position.y - twoPi * delta_time);
-  float y = 0.15f * sin(K * position.x - twoPi * delta_time);
-  std::cout << "\nx: " << position.x
-    << "\ny: " << position.y << std::endl;
+void Circle::oscillatePosition(float delta_time, float life_delta) {
+  double twoPi = CircleMath::TWO_PI;
+  float radians = twoPi;
+  float tmp_angle = 2.0f / 5.0f * twoPi;
+  // float x = 0.5f * cos(radians * position.x * life_delta);
+  float x = 0.5f * cos(radians * life_delta) * cos(tmp_angle * position.x);
+  float y = 0.5f * sin(x);
+  // float x = 0.5f * sin(radians * position.y - radians * life_delta);
+  // float y = 0.5f * sin(radians * position.x - radians * life_delta);
   glm::vec3 new_position = glm::vec3(x, y, 0);
-  // transform(new_position);
   setPosition(new_position);
 }
-
-// void Circle::oscillatePosition(float delta_time) {
-//   float degrees = CircleMath::degreeFromPositioning(position, glm::vec3());
-//   degrees /= 3;
-//   radian_delta += 0.01;
-//   if ((int)radian_delta % 360 == 0) radian_delta = 0.0f;
-//   // 6.28319 | 0.0174533
-//   float radians = glm::radians(degrees);
-//   float test = cos(radians * radian_delta);
-//   float x = cos(radians - radian_delta) * delta_time * test;
-//   float y = sin(radians) * delta_time;
-//   glm::vec3 new_position = glm::vec3(x, y, 0);
-//   transform(new_position);
-// }

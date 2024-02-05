@@ -20,6 +20,7 @@ private:
   // Element Buffer Objects
   void bindEBO(std::vector<unsigned int> &indices);
   void finishBindings();
+  void delta_transform(glm::vec3 &position_delta);
 
 protected:
   glm::vec3 position;
