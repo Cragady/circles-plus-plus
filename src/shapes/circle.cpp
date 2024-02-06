@@ -108,8 +108,8 @@ void Circle::initializeMembers() {
 void Circle::oscillatePosition(float delta_time, float life_delta) {
   float radians = radians_partial * CircleMath::TWO_PI / 2;
 
-  float x = 0.9 * cos(radians) * cos(radians  + life_delta);
-  float y = 0.9 * sin(radians) * cos(radians  + life_delta);
+  float x = 0.9 * cos(radians) * cos(radians * 3 + -life_delta * 3.5);
+  float y = 0.9 * sin(radians) * cos(radians * 3 + -life_delta * 3.5);
 
   glm::vec3 new_position = glm::vec3(x, y, 0);
   setPosition(new_position);

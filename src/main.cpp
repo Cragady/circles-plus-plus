@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-const int CIRCLES_NUM = 12;
+const int CIRCLES_NUM = 500;
 
 int main() {
   try {
