@@ -11,6 +11,13 @@ As you may notices, this repo's name insinuates that there will be more circles.
 
 ## Where It's at currently
 
+This will likely need to be combed through with a debugger and a profiler to make sure I'm not abusing memory. This can be run via CLI, but clickinng on the executable doesn't work and gives an error.
+
+I would like to resolve this, and then get this to a point where this can run on Linux and Windows.
+
+Pretty much Finished:
+
+<img src="./assets/demo/color-shift-circle-2.gif" width="300" height="300" />
 <img src="./assets/demo/color-shift-circle.gif" width="300" height="300" />
 
 ## Dependencies - Local
