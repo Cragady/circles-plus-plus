@@ -25,7 +25,6 @@ private:
 protected:
   glm::vec3 position;
   void clearBindings();
-  void genArraysAndBuffers();
 
 public:
   DObject();
@@ -34,17 +33,17 @@ public:
   // Disable Copy/Move operations
   // May implement at a later date
   DObject(const DObject&) = delete;
-  DObject(DObject&&) = delete;
   DObject& operator=(const DObject&) = delete;
-  DObject& operator=(DObject&&) = delete;
+  // DObject(DObject&&) = delete;
+  // DObject& operator=(DObject&&) = delete;
 
   // copy
   // DObject(DObject const &other);
-  // // DObject& operator=(DObject const &other);
+  // DObject& operator=(DObject const &other);
   // DObject& operator=(DObject other);
-  // // move
-  // DObject(DObject &&other);
-  // DObject& operator=(DObject &&other) noexcept;
+  // move
+  DObject(DObject &&other);
+  DObject& operator=(DObject &&other) noexcept;
 
   enum DrawMode {
     NOOP = 0,
@@ -57,16 +56,17 @@ public:
 
   ShaderProg shader_program;
 
+  void genArraysAndBuffers();
   void bindData(std::vector<float> &vertices, std::vector<unsigned int> &indices);
   void draw();
   void setDrawMode();
   void updateShader();
   void transform(glm::vec3 &position_delta);
   void setPosition(glm::vec3 &new_position);
-  // friend void swap(DObject &first, DObject &second);
+  friend void swap(DObject &first, DObject &second);
 
 };
 
-// void swap(DObject &first, DObject &second);
+void swap(DObject &first, DObject &second);
 
 #endif

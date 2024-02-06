@@ -17,12 +17,20 @@ public:
   ColorShifting();
   ColorShifting(float t_color_high, float t_color_low, float t_speed);
   ~ColorShifting();
+  // ColorShifting(ColorShifting const &other);
+  // ColorShifting& operator=(ColorShifting other);
+  ColorShifting(ColorShifting &other);
+  // ColorShifting& operator=(ColorShifting &other);
+  ColorShifting& operator=(ColorShifting other);
 
   glm::vec3 shiftColor(float delta_time);
 
   float color_high;
   float color_low;
   float shift_speed;
+  friend void swap(ColorShifting &first, ColorShifting &other);
 };
+
+void swap(ColorShifting &first, ColorShifting &other);
 
 #endif

@@ -8,26 +8,26 @@
 
 #include <iostream>
 
+const int CIRCLES_NUM = 10;
+
 int main() {
   try {
     WindowControl windowControl("Circles", SCR_WIDTH, SCR_WIDTH);
     windowControl.initAndCreateWindow();
 
-    // std::vector<Circle> circles;
-    // circles.push_back(Circle(CircleMath::pointOnEdge(0.15f, 0.0f, glm::vec3()), 0.05, 50));
-    // circles[0].initializeMembers();
+    std::vector<Circle> circles(CIRCLES_NUM);
+    for (int i = 0; i < CIRCLES_NUM; i++) {
+      float radians_partial = (float)i / CIRCLES_NUM;
+      Circle tmp(CircleMath::pointOnEdge(0.25f, radians_partial, glm::vec3()), 0.05, 50);
+      tmp.index = i;
+      tmp.outer_total = CIRCLES_NUM;
+      tmp.radians_partial = radians_partial;
+      circles[i] = std::move(tmp);
+    }
 
-    // Circle testCircle(CircleMath::pointOnEdge(0.15f, 0.0f, glm::vec3()), 0.05, 50);
-    // testCircle.initializeMembers();
-
-    // circles.push_back(testCircle);
-
-    Circle firstCircle(CircleMath::pointOnEdge(0.5f, (float)(2.0f / 5.0f), glm::vec3()), 0.05, 50);
-    firstCircle.initializeMembers();
-
-    // Circle secondCircle(CircleMath::pointOnEdge(0.15f, 0.5f, glm::vec3()), 0.05, 50);
-    // secondCircle.initializeMembers();
-
+    for (int i = 0; i < circles.size(); i++) {
+      circles[i].initializeMembers();
+    }
     ClockTrack clockTracker;
     clockTracker.poll_fps = true;
     clockTracker.enable_fps_log = true;
@@ -45,25 +45,11 @@ int main() {
        */
 
       windowControl.clearBuffer();
-      // circles[0].shader_program.use();
-      // circles[0].shader_program.setFragmentColor(
-      //     colorShifting.shiftColor(clockTracker.delta_time));
-      // // circles[0].oscillatePosition(clockTracker.delta_time);
-      // circles[0].oscillatePosition(clockTracker.delta_time);
-      // circles[0].draw();
-
-      firstCircle.shader_program.use();
-      firstCircle.shader_program.setFragmentColor(
-          colorShifting.shiftColor(clockTracker.delta_time));
-      firstCircle.oscillatePosition(clockTracker.delta_time, clockTracker.life_delta);
-      firstCircle.draw();
-
-
-      // secondCircle.shader_program.use();
-      // secondCircle.shader_program.setFragmentColor(
-      //     colorShifting.shiftColor(clockTracker.delta_time));
-      // secondCircle.oscillatePosition(clockTracker.delta_time);
-      // secondCircle.draw();
+      for (int i = 0; i < CIRCLES_NUM; i++) {
+        circles[i].shader_program.use();
+//        circles[i].oscillatePosition(clockTracker.delta_time, clockTracker.life_delta);
+        circles[i].draw(clockTracker.delta_time);
+      }
 
       /*
        *
