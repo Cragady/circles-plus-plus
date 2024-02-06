@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-const int CIRCLES_NUM = 10;
+const int CIRCLES_NUM = 12;
 
 int main() {
   try {
@@ -18,7 +18,7 @@ int main() {
     std::vector<Circle> circles(CIRCLES_NUM);
     for (int i = 0; i < CIRCLES_NUM; i++) {
       float radians_partial = (float)i / CIRCLES_NUM;
-      Circle tmp(CircleMath::pointOnEdge(0.25f, radians_partial, glm::vec3()), 0.05, 50);
+      Circle tmp(CircleMath::pointOnEdge(0.225f, radians_partial, glm::vec3()), 0.05, 50);
       tmp.index = i;
       tmp.outer_total = CIRCLES_NUM;
       tmp.radians_partial = radians_partial;
@@ -47,7 +47,7 @@ int main() {
       windowControl.clearBuffer();
       for (int i = 0; i < CIRCLES_NUM; i++) {
         circles[i].shader_program.use();
-//        circles[i].oscillatePosition(clockTracker.delta_time, clockTracker.life_delta);
+        circles[i].oscillatePosition(clockTracker.delta_time, clockTracker.life_delta);
         circles[i].draw(clockTracker.delta_time);
       }
 

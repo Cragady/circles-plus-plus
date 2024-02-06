@@ -106,15 +106,11 @@ void Circle::initializeMembers() {
 }
 
 void Circle::oscillatePosition(float delta_time, float life_delta) {
-  double twoPi = CircleMath::TWO_PI;
-  float radians = twoPi;
-  // float x = 0.5f * cos(radians * position.x * life_delta);
-  // float x = 0.5f * cos(radians * life_delta) * cos(radians_partial * twoPi * position.x);
-  // float y = 0.5f * sin(radians * life_delta) * sin(radians_partial * twoPi * position.y);
-  float x = 0.5f * cos(radians * life_delta / 2) * cos(radians_partial * twoPi);
-  float y = 0.5f * sin(radians * life_delta / 2) * sin(radians_partial * twoPi);
-  // float x = 0.5f * sin(radians * position.y - radians * life_delta);
-  // float y = 0.5f * sin(radians * position.x - radians * life_delta);
+  float radians = radians_partial * CircleMath::TWO_PI / 2;
+
+  float x = 0.9 * cos(radians) * cos(radians  + life_delta);
+  float y = 0.9 * sin(radians) * cos(radians  + life_delta);
+
   glm::vec3 new_position = glm::vec3(x, y, 0);
   setPosition(new_position);
 }
