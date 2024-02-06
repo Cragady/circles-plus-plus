@@ -11,7 +11,7 @@ As you may notices, this repo's name insinuates that there will be more circles.
 
 ## Where It's at currently
 
-This will likely need to be combed through with a debugger and a profiler to make sure I'm not abusing memory. This can be run via CLI, but clickinng on the executable doesn't work and gives an error.
+This will likely need to be combed through with a debugger and a profiler to make sure I'm not abusing memory. This can be run via CLI, but clicking on the executable doesn't work and gives an error.
 
 I would like to resolve this, and then get this to a point where this can run on Linux and Windows.
 
@@ -47,6 +47,7 @@ Unzip this wherever you like, take the contents and place them in the `libs-and-
 Put everyting in `glfw's` `include/` dir into the project root's `include/` dir, and put the appropriate compiler lib folder into the project root's `lib/` dir.
 
 Structure:
+```
 ./
   .git
   ...
@@ -59,6 +60,7 @@ Structure:
     ...
   src/
   ...
+```
 
 ### GLAD
 
@@ -71,6 +73,7 @@ Follow the instructions left for the glad portion after downloading the zip file
 It's up to you if you want to put it in the `libs-and-headers` dir, or just put it straight into your `includes` folder.
 
 Structure:
+```
 ./
   ...
   libs-and-headers/
@@ -80,6 +83,7 @@ Structure:
       ...
     ...
   ...
+```
 
 
 ## Other Resources
