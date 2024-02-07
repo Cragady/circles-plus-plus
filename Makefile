@@ -21,7 +21,11 @@ mingw-deps: dependencies
 
 # For windows build, use -mwindows, or -municode as an option
 circles:
-	$(G++_COMMAND_PARTIAL) src/win_main.cpp src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) -municode $(INCLUDES_AND_LIBS)
+	$(G++_COMMAND_PARTIAL) src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) $(INCLUDES_AND_LIBS)
+
+circles-wda:
+	windres -i src/resource.rc -o resource.o
+	$(G++_COMMAND_PARTIAL) src/win_main.cpp resource.o src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) -municode $(INCLUDES_AND_LIBS)
 
 circles-and-run: circles
 	./circles.exe

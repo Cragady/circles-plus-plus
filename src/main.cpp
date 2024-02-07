@@ -76,3 +76,7 @@ int main() {
 }
 
 }
+
+int main() {
+  return RawMain::main();
+}

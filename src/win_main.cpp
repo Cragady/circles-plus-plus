@@ -1,7 +1,9 @@
 #include "resource.h"
 #include "main.hpp"
 #include "framework.h"
+#include <csignal>
 #include <winbase.h>
+#include <iostream>
 
 #define MAX_LOADSTRING 100
 
@@ -45,9 +47,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
   }
 
+  // RawMain::main();
+
   return (int)msg.wParam;
 
-  RawMain::main();
   return 0;
 }
 
@@ -78,7 +81,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
-  if (!hWnd) return FALSE;
+  if (!hWnd) {
+    std::cout << "no hWnd?! " << *szTitle << std::endl;
+    return FALSE;
+  }
 
   ShowWindow(hWnd, nCmdShow);
   UpdateWindow(hWnd);

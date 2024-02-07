@@ -1,6 +1,6 @@
 #ifndef FRAMEWORK_H
 #define FRAMEWORK_H
-#include <SDKDDKVer.h>
+#include "targetver.h"
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <stdlib.h>
