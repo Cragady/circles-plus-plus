@@ -36,6 +36,14 @@ I've created a folder, `libs-and-headers` to throw libraries and headers into th
 
 Dependencies in this section, `Dependencies - System` that are needed, will be put in the aforementioned directory.
 
+### libstdc++-6.dll
+
+I was having issues with [this](https://stackoverflow.com/questions/74734500/cant-find-entry-point-zst28-throw-bad-array-new-lengthv-in-dll-filepath).
+
+I didn't want to mess around with the path variable for this, so I just copied the `libstdc++-6.dll` from mingw and put it in `libs-and-headers`.
+
+`make mingw-deps` should put that dll in the project root where the exe is generated.
+
 ### GLFW
 
 Version:  3.3.9 (WIN64)

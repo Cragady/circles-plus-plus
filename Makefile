@@ -16,6 +16,9 @@ all: circles-and-run
 dependencies:
 	cp -r modules/glm/glm include/
 
+mingw-deps: dependencies
+	cp libs-and-headers/mingw-misc/libstdc++-6.dll ./
+
 circles:
 	$(G++_COMMAND_PARTIAL) src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) $(INCLUDES_AND_LIBS)
 
