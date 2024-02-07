@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+namespace RawMain {
+
 const int CIRCLES_NUM = 12;
 
 int main() {
@@ -71,4 +73,6 @@ int main() {
   }
 
   return 0;
+}
+
 }
