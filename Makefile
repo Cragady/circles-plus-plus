@@ -9,7 +9,7 @@ FILE_NAME := $(FILE_NAME_PARTIAL)$(FILE_EXT)
 OUT_OPTION := -o $(FILE_NAME)
 G++_COMMAND_PARTIAL := g++ -std=c++17 -pedantic-errors
 # INCLUDES_AND_LIBS := -I include -isystem lib/mingw-64 -L lib/mingw-64 -l opengl32 -l glfw3 -l gdi32
-INCLUDES_AND_LIBS := -I include -L lib/mingw-64 -l glfw3 -l gdi32
+INCLUDES_AND_LIBS := -I include -L lib/mingw-64 -l glfw3 -l gdi32 -l opengl32
 
 all: circles-and-run
 

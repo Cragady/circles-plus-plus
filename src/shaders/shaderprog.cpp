@@ -9,10 +9,31 @@ ShaderProg::ShaderProg() {
 }
 ShaderProg::~ShaderProg() {
   // destructor
-  glDeleteProgram(m_pId);
+  if (m_pId)
+    glDeleteProgram(m_pId);
 }
 
+ShaderProg::ShaderProg(const ShaderProg &other) : m_pId(other.m_pId) {
+}
 
+ShaderProg::ShaderProg(ShaderProg &&other) : ShaderProg() {
+  swap(*this, other);
+}
+
+ShaderProg &ShaderProg::operator=(ShaderProg &other) {
+  swap(*this, other);
+  return *this;
+}
+
+ShaderProg &ShaderProg::operator=(ShaderProg &&other) {
+  swap(*this, other);
+  return *this;
+}
+
+void swap(ShaderProg &first, ShaderProg &second) {
+  using std::swap;
+  swap(first.m_pId, second.m_pId);
+}
 
 void ShaderProg::setVSandFSLocations(std::string vs_name, std::string fs_name) {
   if (vs_name.length() == 0) {

@@ -11,6 +11,14 @@ public:
 
   ~ShaderProg();
 
+  ShaderProg(const ShaderProg &other);
+  ShaderProg(ShaderProg &&other);
+
+  ShaderProg &operator=(ShaderProg &other);
+  ShaderProg &operator=(ShaderProg &&other);
+
+  friend void swap(ShaderProg &first, ShaderProg &second);
+
   void setFragmentColor(glm::vec3 t_color_vector);
 
   GLuint getUniform(std::string location);
@@ -26,9 +34,11 @@ public:
   GLuint getID();
 
 private:
-  unsigned int m_pId;
+  unsigned int m_pId = 0;
 
   std::string readShaderFromFile(const char *fileName);
 };
+
+void swap(ShaderProg &first, ShaderProg &second);
 
 #endif

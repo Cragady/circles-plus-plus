@@ -17,29 +17,22 @@ DObject::~DObject() {
   clearBindings();
 }
 
-// // copy
-// DObject::DObject(DObject const &other)
-//     : VBO(other.VBO ? other.VBO : (unsigned)int()),
-//       VAO(other.VAO ? other.VAO : (unsigned)int()),
-//       EBO(other.EBO ? other.EBO : (unsigned)int()) {
-// }
-//
-// DObject &DObject::operator=(DObject other) {
-//   swap(*this, other);
-//   return *this;
-// }
-
-// move
-DObject::DObject(DObject &&other)
-    : VBO(other.VBO), VAO(other.VAO), EBO(other.EBO) {
-  other.VBO = (unsigned)int();
-  other.VAO = (unsigned)int();
-  other.EBO = (unsigned)int();
-  other.shader_program = {};
-  other.indices_size = {};
+DObject::DObject(const DObject &other)
+    : VBO(other.VBO ? other.VBO : (unsigned)int()),
+      VAO(other.VAO ? other.VAO : (unsigned)int()),
+      EBO(other.EBO ? other.EBO : (unsigned)int()) {
 }
 
-DObject &DObject::operator=(DObject &&other) noexcept {
+DObject::DObject(DObject &&other) noexcept : DObject() {
+  swap(*this, other);
+}
+
+DObject &DObject::operator=(DObject &other) {
+  swap(*this, other);
+  return *this;
+}
+
+DObject &DObject::operator=(DObject &&other) {
   swap(*this, other);
   return *this;
 }
@@ -111,6 +104,7 @@ void DObject::setDrawMode() {
 }
 
 void DObject::clearBindings() {
+  // if (VAO && VAO != GL_INVALID_VALUE) // ??
   if (VAO)
     glDeleteVertexArrays(1, &VAO);
   if (VBO)
@@ -123,6 +117,7 @@ void DObject::genArraysAndBuffers() {
   glGenVertexArrays(1, &VAO);
   glGenBuffers(1, &VBO);
   glGenBuffers(1, &EBO);
+  GL_INVALID_VALUE;
 }
 
 void DObject::transform(glm::vec3 &position_delta) {

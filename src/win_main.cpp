@@ -4,15 +4,24 @@
 #include <csignal>
 #include <winbase.h>
 #include <iostream>
+#include <wingdi.h>
+#include <winuser.h>
 
 #define MAX_LOADSTRING 100
+
+struct WGL_WindowData { HDC hDC; };
+
+static HGLRC g_hRC;
+static WGL_WindowData g_MainWindow;
 
 HINSTANCE hInst;
 WCHAR szTitle[MAX_LOADSTRING];
 WCHAR szWindowClass[MAX_LOADSTRING];
 
-ATOM CirclesRegisterClass(HINSTANCE hInstance);
-BOOL InitInstance(HINSTANCE, int);
+void CirclesRegisterClass(HINSTANCE hInstance, WNDCLASSEXW &wcex);
+// BOOL InitInstance(HINSTANCE, int);
+bool CreateDeviceWGL(HWND hWnd, WGL_WindowData *data);
+void CleanupDeviceWGL(HWND hWnd, WGL_WindowData *data);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK About(HWND, UINT, WPARAM, LPARAM);
 
@@ -32,30 +41,50 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
   LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
   LoadStringW(hInstance, IDC_CIRCLESPLUSPLUS, szWindowClass, MAX_LOADSTRING);
-  CirclesRegisterClass(hInstance);
+  WNDCLASSEXW wcex;
+  CirclesRegisterClass(hInstance, wcex);
 
-  if (!InitInstance (hInstance, nCmdShow)) return FALSE;
+  HWND hwnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+
+
+  if (!CreateDeviceWGL(hwnd, &g_MainWindow)) {
+    CleanupDeviceWGL(hwnd, &g_MainWindow);
+    ::DestroyWindow(hwnd);
+    ::UnregisterClassW(wcex.lpszClassName, wcex.hInstance);
+    return 1;
+  };
+
+  wglMakeCurrent(g_MainWindow.hDC, g_hRC);
+
+  ::ShowWindow(hwnd, SW_SHOWDEFAULT);
+  ::UpdateWindow(hwnd);
 
   HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CIRCLESPLUSPLUS));
 
-  MSG msg;
+  bool done = false;
+  while (!done) {
 
-  while (GetMessage(&msg, nullptr, 0, 0)) {
-    if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) {
-      TranslateMessage(&msg);
-      DispatchMessage(&msg);
+    MSG msg;
+
+    while (::PeekMessageA(&msg, nullptr, 0U, 0U, PM_REMOVE)) {
+        ::TranslateMessage(&msg);
+        ::DispatchMessage(&msg);
+        if (msg.message == WM_QUIT)
+          done = true;
     }
+
+    if (done)
+      break;
+
+    // RawMain::main();
   }
 
-  // RawMain::main();
-
-  return (int)msg.wParam;
 
   return 0;
 }
 
-ATOM CirclesRegisterClass(HINSTANCE hInstance) {
-  WNDCLASSEXW wcex;
+void CirclesRegisterClass(HINSTANCE hInstance, WNDCLASSEXW &wcex) {
 
   wcex.cbSize = sizeof(WNDCLASSEX);
 
@@ -71,28 +100,60 @@ ATOM CirclesRegisterClass(HINSTANCE hInstance) {
   wcex.lpszClassName = szWindowClass;
   wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-  return RegisterClassExW(&wcex);
+  RegisterClassExW(&wcex);
 
 }
 
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
-  hInst = hInstance;
+// HWND InitInstance(HINSTANCE hInstance, int nCmdShow) {
+//   hInst = hInstance;
+//
+//   return CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+//       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+//
+//   if (!hWnd) {
+//     std::cout << "no hWnd?! " << *szTitle << std::endl;
+//     return FALSE;
+//   }
+//
+//   ShowWindow(hWnd, nCmdShow);
+//   UpdateWindow(hWnd);
+//
+//   return TRUE;
+// }
 
-  HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+bool CreateDeviceWGL(HWND hWnd, WGL_WindowData *data) {
+  HDC hDc = ::GetDC(hWnd);
+  PIXELFORMATDESCRIPTOR pfd = { 0 };
+  pfd.nSize = sizeof(pfd);
+  pfd.nVersion = 1;
+  pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+  pfd.iPixelType = PFD_TYPE_RGBA;
+  pfd.cColorBits = 64;
 
-  if (!hWnd) {
-    std::cout << "no hWnd?! " << *szTitle << std::endl;
-    return FALSE;
-  }
+  const int pf = ::ChoosePixelFormat(hDc, &pfd);
+  if (pf == 0)
+    return false;
+  if (::SetPixelFormat(hDc, pf, &pfd) == FALSE)
+    return false;
+  ::ReleaseDC(hWnd, hDc);
 
-  ShowWindow(hWnd, nCmdShow);
-  UpdateWindow(hWnd);
+  data->hDC = ::GetDC(hWnd);
+  if (!g_hRC)
+    g_hRC = wglCreateContext(data->hDC);
+  return true;
+}
 
-  return TRUE;
+void CleanupDeviceWGL(HWND hWnd, WGL_WindowData *data) {
+  wglMakeCurrent(nullptr, nullptr);
+  ::ReleaseDC(hWnd, data->hDC);
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+
+  // ImGui has this and handles a set of messages here.
+  // We can define our own cases instead.
+  // if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+  //     return true;
   switch (message) {
     case WM_COMMAND: {
         int wmId = LOWORD(wParam);

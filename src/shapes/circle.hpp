@@ -19,10 +19,10 @@ public:
   Circle(glm::vec3 t_position, float t_radius, float t_steps = 50);
   ~Circle();
 
-  Circle(const Circle&) = delete;
-  Circle& operator=(const Circle&) = delete;
-  Circle(Circle &&other);
-  Circle& operator=(Circle &&other) noexcept;
+  Circle(const Circle&);
+  Circle(Circle &&other) noexcept;
+  Circle& operator=(Circle &other);
+  Circle& operator=(Circle &&other);
 
   unsigned int steps;
   float radius;
