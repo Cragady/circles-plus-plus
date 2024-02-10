@@ -1,6 +1,7 @@
 #include "framework.h"
 #include "main.hpp"
 #include "resource.h"
+// #include <dwmapi.h>
 #include <glad/glad.h>
 #include <iostream>
 
@@ -178,9 +179,30 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
   // if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
   //     return true;
   switch (message) {
-  case WM_CREATE: {
-    // std::cout << "Created Window" << std::endl;
-  } break;
+  // case WM_ACTIVATE: {
+  //   MARGINS margins;
+
+  //   margins.cxLeftWidth = 8;
+  //   margins.cxRightWidth = 8;
+  //   margins.cyBottomHeight = 20;
+  //   margins.cyTopHeight = 27;
+
+  //   HRESULT hr = DwmExtendFrameIntoClientArea(hWnd, &margins);
+
+  //   if (!SUCCEEDED(hr)) {
+  //     std::cout << "Window border frame set failed." << std::endl;
+  //   }
+  // } break;
+  // case WM_CREATE: {
+  //   RECT rcClient;
+  //   GetWindowRect(hWnd, &rcClient);
+
+  //   SetWindowPos(hWnd, NULL, rcClient.left, rcClient.top,
+  //                rcClient.right - rcClient.left, rcClient.bottom - rcClient.top,
+  //                SWP_FRAMECHANGED);
+  //   // SetWindowPos(HWND hWnd, HWND hWndInsertAfter, int X, int Y, int cx, int
+  //   // cy, UINT uFlags)
+  // } break;
   case WM_COMMAND: {
     int wmId = LOWORD(wParam);
     switch (wmId) {
@@ -194,12 +216,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
       return DefWindowProc(hWnd, message, wParam, lParam);
     }
   } break;
-    // case WM_PAINT: {
-    //     PAINTSTRUCT ps;
-    //     HDC hdc = BeginPaint(hWnd, &ps);
-    //     EndPaint(hWnd, &ps);
-    //   }
-    //   break;
+  // case WM_PAINT: {
+  //   PAINTSTRUCT ps;
+  //   HDC hdc = BeginPaint(hWnd, &ps);
+  //   EndPaint(hWnd, &ps);
+  // } break;
 
   case WM_DESTROY:
     PostQuitMessage(0);
