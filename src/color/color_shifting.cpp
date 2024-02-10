@@ -28,8 +28,10 @@ ColorShifting::ColorShifting(float t_color_high, float t_color_low,
 ColorShifting::~ColorShifting(){};
 
 ColorShifting::ColorShifting(ColorShifting &other)
-    : ColorShifting(other.color_high, other.color_low, other.shift_speed) {
-}
+    : ColorShifting(other.color_high, other.color_low, other.shift_speed) {}
+
+ColorShifting::ColorShifting(ColorShifting &&other)
+    : ColorShifting(other.color_high, other.color_low, other.shift_speed) {}
 
 // ColorShifting &ColorShifting::operator=(ColorShifting &other) {
 //   swap(*this, other);

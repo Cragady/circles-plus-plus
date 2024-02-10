@@ -9,10 +9,10 @@
 class DObject {
 
 private:
-  unsigned int VBO;
-  unsigned int VAO;
-  unsigned int EBO;
-  unsigned long long indices_size;
+  unsigned int VBO = 0;
+  unsigned int VAO = 0;
+  unsigned int EBO = 0;
+  unsigned long long indices_size = 0;
   // Vertex Array Objects
   void bindVAO();
   // Vertex Buffer Objects
@@ -30,20 +30,16 @@ public:
   DObject();
   ~DObject();
 
-  // Disable Copy/Move operations
-  // May implement at a later date
-  DObject(const DObject&) = delete;
-  DObject& operator=(const DObject&) = delete;
-  // DObject(DObject&&) = delete;
-  // DObject& operator=(DObject&&) = delete;
-
   // copy
-  // DObject(DObject const &other);
-  // DObject& operator=(DObject const &other);
-  // DObject& operator=(DObject other);
+  DObject(const DObject &other);
+  DObject &operator=(DObject &other);
+
   // move
-  DObject(DObject &&other);
-  DObject& operator=(DObject &&other) noexcept;
+  DObject(DObject &&other) noexcept;
+  DObject &operator=(DObject &&other);
+
+  // Copy & Move Assignment
+  // DObject& operator=(DObject other); // Copy & Move assignment not wanted in this case
 
   enum DrawMode {
     NOOP = 0,

@@ -15,10 +15,12 @@
 #include <glm/glm.hpp>
 #include <iostream>
 
-Circle::Circle() : Circle(0.25f, 50) {}
+Circle::Circle() : Circle(0.25f, 50) {
+}
 
 Circle::Circle(float t_radius, float t_steps)
-    : Circle(glm::vec3(), t_radius, t_steps) {}
+    : Circle(glm::vec3(), t_radius, t_steps) {
+}
 
 Circle::Circle(glm::vec3 t_position, float t_radius, float t_steps) {
   radius = t_radius;
@@ -40,16 +42,21 @@ Circle::Circle(glm::vec3 t_position, float t_radius, float t_steps) {
 
 Circle::~Circle(){};
 
-// move
-Circle::Circle(Circle &&other)
-    : vec(other.vec), vertices(other.vertices), indices(other.indices) {
-  other.vec = std::vector<glm::vec3>();
-  other.vertices = std::vector<float>();
-  other.indices = std::vector<unsigned int>();
-  std::cout << "hitting move const" << std::endl;
+Circle::Circle(const Circle &other) {
+};
+
+Circle::Circle(Circle &&other) noexcept
+    : Circle() {
+  swap(*this, other);
 }
 
-Circle &Circle::operator=(Circle &&other) noexcept {
+Circle &Circle::operator=(Circle &other) {
+  swap(*this, other);
+  this->setPosition(this->position);
+  return *this;
+}
+
+Circle &Circle::operator=(Circle &&other) {
   swap(*this, other);
   this->setPosition(this->position);
   return *this;
@@ -108,8 +115,8 @@ void Circle::initializeMembers() {
 void Circle::oscillatePosition(float delta_time, float life_delta) {
   float radians = radians_partial * CircleMath::TWO_PI / 2;
 
-  float x = 0.9 * cos(radians) * cos(radians  + life_delta);
-  float y = 0.9 * sin(radians) * cos(radians  + life_delta);
+  float x = 0.9 * cos(radians) * cos(radians * 3 + life_delta);
+  float y = 0.9 * sin(radians) * cos(radians * 3 + life_delta);
 
   glm::vec3 new_position = glm::vec3(x, y, 0);
   setPosition(new_position);

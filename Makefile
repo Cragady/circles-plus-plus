@@ -9,7 +9,8 @@ FILE_NAME := $(FILE_NAME_PARTIAL)$(FILE_EXT)
 OUT_OPTION := -o $(FILE_NAME)
 G++_COMMAND_PARTIAL := g++ -std=c++17 -pedantic-errors
 # INCLUDES_AND_LIBS := -I include -isystem lib/mingw-64 -L lib/mingw-64 -l opengl32 -l glfw3 -l gdi32
-INCLUDES_AND_LIBS := -I include -L lib/mingw-64 -l glfw3 -l gdi32
+INCLUDES_AND_LIBS := -I include -L lib/mingw-64 -l glfw3 -l gdi32 -l opengl32
+WINDOWS_LIBS := -l Dwmapi
 
 all: circles-and-run
 
@@ -19,12 +20,17 @@ dependencies:
 mingw-deps: dependencies
 	cp libs-and-headers/mingw-misc/libstdc++-6.dll ./
 
+# For windows build, use -mwindows, or -municode as an option
 circles:
 	$(G++_COMMAND_PARTIAL) src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) $(INCLUDES_AND_LIBS)
 
 circles-and-run: circles
 	./circles.exe
 
+win:
+	windres -i src/resource.rc -o resource.o
+	$(G++_COMMAND_PARTIAL) src/win_main.cpp resource.o src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) -municode $(INCLUDES_AND_LIBS) $(WINDOWS_LIBS)
+	./circles.exe
 
 example:
 	-$(G++_COMMAND_PARTIAL) src/example.cpp src/glad.c -o example.exe $(INCLUDES_AND_LIBS)
