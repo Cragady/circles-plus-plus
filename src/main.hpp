@@ -12,12 +12,15 @@ class RawMain {
 private:
   std::vector<Circle> circles;
   ClockTrack clockTracker;
-  WindowControl windowControl;
 
 public:
   RawMain();
   ~RawMain();
+
+  WindowControl windowControl;
+
   void fillMembers();
   int main();
   void renderWindow();
+  void pushClock();
 };

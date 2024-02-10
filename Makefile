@@ -23,13 +23,10 @@ mingw-deps: dependencies
 circles:
 	$(G++_COMMAND_PARTIAL) src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) $(INCLUDES_AND_LIBS)
 
-circles-wda:
+win:
 	windres -i src/resource.rc -o resource.o
 	$(G++_COMMAND_PARTIAL) src/win_main.cpp resource.o src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) -municode $(INCLUDES_AND_LIBS)
-
-circles-and-run: circles
 	./circles.exe
-
 
 example:
 	-$(G++_COMMAND_PARTIAL) src/example.cpp src/glad.c -o example.exe $(INCLUDES_AND_LIBS)

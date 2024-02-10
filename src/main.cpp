@@ -50,7 +50,7 @@ int RawMain::main() {
     fillMembers();
 
     while (windowControl.keepOpen()) {
-      clockTracker.clock_cycle();
+      pushClock();
 
       windowControl.processInput();
 
@@ -91,3 +91,6 @@ void RawMain::renderWindow() {
   }
 }
 
+void RawMain::pushClock() {
+  clockTracker.clock_cycle();
+}
