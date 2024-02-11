@@ -11,6 +11,7 @@ G++_COMMAND_PARTIAL := g++ -std=c++17 -pedantic-errors
 # INCLUDES_AND_LIBS := -I include -isystem lib/mingw-64 -L lib/mingw-64 -l opengl32 -l glfw3 -l gdi32
 INCLUDES_AND_LIBS := -I include -L lib/mingw-64 -l glfw3 -l gdi32 -l opengl32
 WINDOWS_LIBS := -l Dwmapi
+LIN_INCLUDES_AND_LIBS := -Iinclude -Llib/gcc -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl
 
 all: circles-and-run
 
@@ -31,6 +32,12 @@ win:
 	windres -i src/resource.rc -o resource.o
 	$(G++_COMMAND_PARTIAL) src/win_main.cpp resource.o src/main.cpp $(PROGRAM_FILES) $(OUT_OPTION) -municode $(INCLUDES_AND_LIBS) $(WINDOWS_LIBS)
 	./circles.exe
+
+# If dealing with shared libraries, pass -Wl,-rpath,'$$ORIGIN'
+# TODO: Find way to use shared lib if wanted, without a global install
+lin:
+	$(G++_COMMAND_PARTIAL) src/main.cpp $(PROGRAM_FILES) -o circles.bin $(LIN_INCLUDES_AND_LIBS)
+	./circles.bin
 
 example:
 	-$(G++_COMMAND_PARTIAL) src/example.cpp src/glad.c -o example.exe $(INCLUDES_AND_LIBS)

@@ -1,4 +1,4 @@
-src/dobject.cpp
+src/DObject.cpp
 src/window_control.cpp
 src/shaders/shaderprog.cpp
 src/color/color_shifting.cpp
