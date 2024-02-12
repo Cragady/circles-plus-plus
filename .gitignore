@@ -19,4 +19,5 @@ libs-and-headers/*
 !libs-and-headers/mingw-misc/
 !libs-and-headers/mingw-misc/*
 !lib/**/*
+lib/gcc
 include/glm

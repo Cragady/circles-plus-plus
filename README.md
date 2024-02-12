@@ -20,7 +20,66 @@ Pretty much Finished:
 <img src="./assets/demo/color-shift-circle-2.gif" width="300" height="300" />
 <img src="./assets/demo/color-shift-circle.gif" width="300" height="300" />
 
-## Dependencies - Local
+## Dependencies - Linux (Ubuntu)
+
+### Mesa-Utils
+
+`sudo apt-get install mesa-utils`
+
+### libgl1-mesa-dev libglu1-mesa-dev
+
+`sudo apt-get install libgl1-mesa-dev`
+
+### libglu1-mesa-dev (optional)
+
+`sudo apt-get install libglu1-mesa-dev`
+
+### libxrandr-dev
+
+`sudo apt-get install libxrandr-dev`
+
+### libxi-dev
+
+`sudo apt-get install libxi-dev`
+
+### Nvidia
+
+As per ubuntu's [docs](https://ubuntu.com/server/docs/nvidia-drivers-installation#:~:text=for%20your%20hardware%3A-,sudo%20ubuntu%2Ddrivers%20install,-Or%20you%20can):
+
+`sudo ubuntu-drivers install`
+
+Or if another distro: https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html#package-manager
+
+### GLFW
+
+If you don't have it, [compile it](https://github.com/glfw/glfw?tab=readme-ov-file).
+
+[Compile guide](https://www.glfw.org/docs/latest/compile.html).
+
+#### Commands I used (Ubuntu)
+
+TODO: see about making shared libs if wanted
+
+* `sudo apt-get install xorg-dev`
+* `sudo apt-get install cmake`
+* `sudo apt-get install libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules`
+* `cd libs-and-headers`
+* `git clone git@github.com:glfw/glfw`
+* `cd glfw`
+* `git checkout 3.3.9`
+* `cmake -S . -B build -G "Unix Makefiles"`
+* `cd build`
+* `make`
+* `cd ../../../`
+* `mkdir lib/gcc`
+* `cp -r libs-and-headers/glfw/build/src/libglfw3.a lib/gcc`
+
+(If necessary):
+* `cp libs-and-headers/glfw/build/src/libglfw3.a lib/gcc`
+
+Of course, you can do what you want, even installing it on the system, but I wanted this to be local.
+
+## Dependencies - (Windows) Local
 
 * glm
 
@@ -28,7 +87,7 @@ I think this could be a system dependency instead if wanted, and can install, bu
 
 Run: `make dependencies` after cloning w/modules, or after updating submodules.
 
-## Dependencies - System
+## Dependencies - (Windows) System
 
 This section may not be needed for you, as I'm using an `includes/` and `lib/win64` directory that git will be tracking, but if you want to kaibosh this folder, and set it up yourself, then this section is for you. If not, then skip this section.
 
@@ -72,7 +131,7 @@ Structure:
 
 ### GLAD
 
-This is the permalink that was given for the setup I used following the instructions at the [creating a window portion of learnopengl](https://learnopengl.com/Getting-started/Creating-a-window#:~:text=configuration%20of%20GLFW.-,GLAD,-We%27re%20still%20not): [glad generated](https://glad.dav1d.de/#language=c&specification=gl&api=gl%3D4.6&api=gles1%3Dnone&api=gles2%3Dnone&api=glsc2%3Dnone&profile=compatibility&loader=on).
+This is the permalink that was given for the setup I used following the instructions at the [creating a window portion of learnopengl](https://learnopengl.com/Getting-started/Creating-a-window#:~:text=configuration%20of%20GLFW.-,GLAD,-We%27re%20still%20not): [glad generated](https://glad.dav1d.de/#language=c&specification=gl&api=gl%3D4.3&api=gles1%3Dnone&api=gles2%3Dnone&api=glsc2%3Dnone&profile=compatibility&loader=on).
 
 If I did things correctly, and you're on a similar architecture, this should work for you as well.
 
