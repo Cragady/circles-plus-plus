@@ -67,12 +67,12 @@ TODO: see about making shared libs if wanted
 * `git clone git@github.com:glfw/glfw`
 * `cd glfw`
 * `git checkout 3.3.9`
-* `cmake -S . -B build -D BUILD_SHARED_LIBS=ON -G "Unix Makefiles"`
+* `cmake -S . -B build -G "Unix Makefiles"`
 * `cd build`
 * `make`
 * `cd ../../../`
 * `mkdir lib/gcc`
-* `cp -r libs-and-headers/glfw/build/src/* lib/gcc`
+* `cp -r libs-and-headers/glfw/build/src/libglfw3.a lib/gcc`
 
 (If necessary):
 * `cp libs-and-headers/glfw/build/src/libglfw3.a lib/gcc`
